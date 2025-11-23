@@ -25,6 +25,11 @@ all: $(BINS)
 
 # --- 編譯規則 ---
 
+# 如果 abc/libabc.a 不存在，就自動進入 abc 資料夾執行 make
+$(ABC_LIB):
+	@echo "Building ABC library..."
+	@cd abc && $(MAKE) -j8 libabc.a
+
 # 規則：bin/資料夾/檔名 依賴於 資料夾/檔名.cpp
 # mkdir -p $(dir $@) 會自動建立對應的資料夾 (例如 bin/example/)
 bin/%: %.cpp $(ABC_LIB)
