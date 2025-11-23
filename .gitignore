@@ -1,0 +1,9 @@
+# Executables
+bin/
+
+# ABC Tool Artifacts
+abc.history
+
+# OS & Editor Files
+.DS_Store
+.vscode/
