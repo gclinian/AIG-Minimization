@@ -32,7 +32,8 @@ This command will:
 
 ## Project Structure
 
--   **`abc/`**: The ABC tool source code (submodule).
+-   **`third_party/`**: Third-party dependencies.
+    -   **`abc/`**: The ABC tool source code (submodule).
 -   **`bin/`**: All compiled executables will be placed here, mirroring the source directory structure.
 -   **`benchmarks/`**: Truth table files and other benchmarks.
 -   **`example/`**: Example source code (e.g., `main.cpp`).
