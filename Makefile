@@ -47,7 +47,9 @@ help:
 # --- Python 虛擬環境與 cirbo ---
 venv:
 	python3 -m venv $(VENV)
-	. $(VENV)/bin/activate && pip install -U pip && pip install -e third_party/cirbo
+	. $(VENV)/bin/activate && \
+		pip install -U pip && \
+		pip install -r requirement.txt
 
 cirbo: venv
 	. $(VENV)/bin/activate && $(PYTHON) src/cirbo/main.py
