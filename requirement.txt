@@ -1,2 +1,1 @@
 git+https://github.com/SPbSAT/cirbo.git
-git+https://github.com/alexanderskulikov/circuit_improvement.git
