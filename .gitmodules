@@ -2,9 +2,6 @@
 	path = third_party/abc
 	url = https://github.com/berkeley-abc/abc.git
 
-[submodule "simplifier"]
-	path = third_party/simplifier
-	url = https://github.com/SPbSAT/simplifier
 [submodule "third_party/simplifier"]
 	path = third_party/simplifier
 	url = https://github.com/SPbSAT/simplifier.git
