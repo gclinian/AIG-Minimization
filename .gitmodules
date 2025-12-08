@@ -4,4 +4,4 @@
 
 [submodule "simplifier"]
 	path = third_party/simplifier
-	url = https://github.com/SPbSAT/simplifier
+	url = https://github.com/SPbSAT/simplifier.git
