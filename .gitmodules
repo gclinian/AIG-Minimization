@@ -4,3 +4,6 @@
 [submodule "third_party/cirbo"]
 	path = third_party/cirbo
 	url = https://github.com/SPbSAT/cirbo.git
+[submodule "third_party/eslim"]
+	path = third_party/eslim
+	url = https://github.com/fxreichl/eSLIM.git

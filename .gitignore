@@ -7,3 +7,6 @@ abc.history
 # OS & Editor Files
 .DS_Store
 .vscode/
+.venv/
+__pycache__/
+results/

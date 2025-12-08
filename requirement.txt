@@ -1,0 +1,3 @@
+bitarray
+pybind11
+cmake
