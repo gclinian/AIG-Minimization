@@ -6,57 +6,94 @@
 #include <iomanip>
 #include <algorithm>
 #include <cmath>
-#include <cstdlib> // Required for std::system
+#include <cstdlib>
+#include <chrono>
 
-// ABC Headers (Ensure your Makefile includes -Ithird_party/abc/src)
+// ABC Headers
 #include "base/abc/abc.h"
 #include "base/main/main.h"
 
 // =========================================================
-// FUNCTION DECLARATIONS
+// FUNCTION DECLARATIONS (Updated Signatures)
 // =========================================================
 
-// Optimizes using ABC (Internal Library)
 int run_abc_optimization(std::string inputTruthFile, std::string outputAigFile);
-
-// Optimizes using eSLIM (Calls Bash Wrapper)
-int run_eslim_optimization(std::string inputAigFile, std::string outputAigFile);
-
-// Fallback utility
+int run_eslim_optimization(std::string inputAigFile, std::string outputAigFile, int timeLimit);
 void copy_file(std::string srcFilename, std::string dstFilename);
+int run_iterative_eslim(std::string inputFile, std::string outputFile, int totalTimeLimit, int iterTimeLimit);
+int get_gate_count(std::string filename);
 
 // =========================================================
 // MAIN ORCHESTRATOR
 // =========================================================
 
 int main(int argc, char * argv[]) {
+    // 1. Basic Usage Check
     if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <truth_file> <output_aig>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <input_file> <output_aig> [options]" << std::endl;
+        std::cerr << "Options (key=value):" << std::endl;
+        std::cerr << "  time_limit=<int>   Total runtime budget in seconds (Default: 300)" << std::endl;
+        std::cerr << "  iter_time=<int>    Max runtime per optimization step (Default: 60)" << std::endl;
         return 1;
     }
-    std::string truthFile = argv[1];
-    std::string finalOutputFile = argv[2];
+
+    std::string inputFile = argv[1];
+    std::string outputFile = argv[2];
     
-    // Intermediate file
-    std::string tempAbcOutput = "temp_abc_result.aig";
+    // 2. Default Configuration
+    int totalTimeLimit = 300; 
+    int iterTimeLimit = 60;   
 
-    // STEP 1: ABC Optimization
-    if (run_abc_optimization(truthFile, tempAbcOutput) != 0) {
-        std::cerr << "[Error] ABC Optimization step failed." << std::endl;
+    // 3. Flexible Argument Parsing
+    for (int i = 3; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg.find("time_limit=") == 0) {
+            try {
+                totalTimeLimit = std::stoi(arg.substr(11));
+            } catch (...) { std::cerr << "[Warn] Invalid time_limit ignored.\n"; }
+        }
+        else if (arg.find("iter_time=") == 0) { // Renamed from chunk_size
+            try {
+                iterTimeLimit = std::stoi(arg.substr(10));
+            } catch (...) { std::cerr << "[Warn] Invalid iter_time ignored.\n"; }
+        }
+        else {
+            std::cerr << "[Warn] Unknown argument: " << arg << std::endl;
+        }
+    }
+
+    std::cout << "[Config] Total Limit: " << totalTimeLimit << "s | Iteration Limit: " << iterTimeLimit << "s" << std::endl;
+
+    // 4. Detect File Extension & Execute
+    std::string ext = "";
+    size_t dot = inputFile.find_last_of(".");
+    if (dot != std::string::npos) ext = inputFile.substr(dot);
+
+    if (ext == ".truth") {
+        std::cout << "[Main] Detected .truth file. Starting ABC Synthesis..." << std::endl;
+        std::string tempAbcOutput = "temp_abc_result.aig";
+
+        if (run_abc_optimization(inputFile, tempAbcOutput) != 0) {
+            std::cerr << "[Error] ABC Synthesis failed." << std::endl;
+            return 1;
+        }
+
+        std::cout << "[Main] Starting eSLIM Iterative Minimization..." << std::endl;
+        int res = run_iterative_eslim(tempAbcOutput, outputFile, totalTimeLimit, iterTimeLimit);
+        
+        if (res != 0) copy_file(tempAbcOutput, outputFile); // Fallback
+        std::remove(tempAbcOutput.c_str());
+    } 
+    else if (ext == ".aig") {
+        std::cout << "[Main] Detected .aig file. Starting eSLIM Iterative Minimization..." << std::endl;
+        int res = run_iterative_eslim(inputFile, outputFile, totalTimeLimit, iterTimeLimit);
+        
+        if (res != 0) copy_file(inputFile, outputFile); // Fallback
+    } 
+    else {
+        std::cerr << "[Error] Unknown file extension: " << ext << std::endl;
         return 1;
     }
-
-    // STEP 2: eSLIM Optimization (via Bash Script)
-    int eslimResult = run_eslim_optimization(tempAbcOutput, finalOutputFile);
-
-    // STEP 3: Fallback Strategy
-    if (eslimResult != 0) {
-        std::cout << "[Main] eSLIM failed. Falling back to ABC result." << std::endl;
-        copy_file(tempAbcOutput, finalOutputFile);
-    }
-
-    // Cleanup
-    std::remove(tempAbcOutput.c_str());
 
     return 0;
 }
@@ -133,7 +170,7 @@ int run_abc_optimization(std::string inputTruthFile, std::string outputAigFile) 
         Abc_Obj_t * pPo = Abc_NtkCreatePo( pNtk );
         Abc_ObjAddFanin( pPo, pFinalNode );
         
-        char outName[20];
+        char outName[30];
         if (functions.size() == 1) sprintf(outName, "F0");
         else sprintf(outName, "f%lu", fIdx);
         Abc_ObjAssignName( pPo, outName, NULL );
@@ -160,14 +197,13 @@ int run_abc_optimization(std::string inputTruthFile, std::string outputAigFile) 
     return res;
 }
 
-int run_eslim_optimization(std::string inputFile, std::string outputFile) {
+int run_eslim_optimization(std::string inputFile, std::string outputFile, int timeLimit) {
     // 1. Paths relative to project root
     // We use the Python interpreter inside the .venv created by 'make eslim'
     std::string pythonExe = ".venv/bin/python3";
     std::string scriptPath = "third_party/eslim/src/reduce.py";
     // We need to add the source dir to PYTHONPATH so it finds the 'bindings' module
     std::string bindingsPath = "third_party/eslim/src"; 
-    int timeout = 300; 
     
     // 2. Sanity Check: Does venv exist?
     std::ifstream f(pythonExe.c_str());
@@ -183,7 +219,7 @@ int run_eslim_optimization(std::string inputFile, std::string outputFile) {
     std::stringstream ss;
     ss << "PYTHONPATH=$PYTHONPATH:" << bindingsPath << " "
        << pythonExe << " " << scriptPath << " "
-       << inputFile << " " << outputFile << " " << timeout 
+       << inputFile << " " << outputFile << " " << timeLimit 
        << " --aig --aig-out " << outputFile << " --gs 2 --syn-mode sat";
 
     std::string command = ss.str();
@@ -210,4 +246,87 @@ void copy_file(std::string srcFilename, std::string dstFilename) {
     } else {
         std::cerr << "[Fallback] Error: Could not copy file." << std::endl;
     }
+}
+
+int get_gate_count(std::string filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) return -1;
+    
+    std::string word;
+    // Header format: aig M I L O A (A is the 5th number)
+    if (file >> word && word == "aig") {
+        int m, i, l, o, a;
+        if (file >> m >> i >> l >> o >> a) {
+            return a;
+        }
+    }
+    return -1; // Parse error
+}
+
+int run_iterative_eslim(std::string inputFile, std::string outputFile, int totalTimeLimit, int iterTimeLimit) {
+    std::cout << "[Iterative] Starting loop. Total Budget: " << totalTimeLimit 
+              << "s, Step Budget: " << iterTimeLimit << "s" << std::endl;
+    
+    auto startTime = std::chrono::steady_clock::now();
+    
+    // Initialize: Copy input to output as the "Best So Far"
+    copy_file(inputFile, outputFile);
+    
+    int bestCost = get_gate_count(outputFile);
+    if (bestCost == -1) {
+        std::cerr << "[Iterative] Error: Could not read input AIG size." << std::endl;
+        return 1;
+    }
+    std::cout << "[Iterative] Initial Size: " << bestCost << " AND gates." << std::endl;
+
+    std::string tempIterOutput = "temp_iter_out.aig";
+    int iteration = 1;
+
+    while (true) {
+        // Check remaining time
+        auto now = std::chrono::steady_clock::now();
+        int elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
+        int remaining = totalTimeLimit - elapsed;
+
+        if (remaining <= 5) { // 5s buffer for safety
+            std::cout << "[Iterative] Total time limit reached." << std::endl;
+            break;
+        }
+
+        // Determine budget for this specific run
+        // If remaining time is less than iterTimeLimit, use whatever is left
+        int currentLimit = (remaining < iterTimeLimit) ? remaining : iterTimeLimit;
+
+        std::cout << "[Iterative] Iteration " << iteration << " (Limit: " << currentLimit << "s)..." << std::endl;
+
+        int res = run_eslim_optimization(outputFile, tempIterOutput, currentLimit);
+        
+        if (res != 0) {
+            std::cerr << "[Iterative] eSLIM run failed or timed out hard. Stopping." << std::endl;
+            break;
+        }
+
+        int newCost = get_gate_count(tempIterOutput);
+        
+        if (newCost != -1) {
+            std::cout << "[Iterative] Size change: " << bestCost << " -> " << newCost << std::endl;
+
+            if (newCost < bestCost) {
+                std::cout << "[Iterative] Improvement found! Updating best result." << std::endl;
+                bestCost = newCost;
+                copy_file(tempIterOutput, outputFile);
+                iteration++;
+            } else {
+                std::cout << "[Iterative] No improvement (Converged). Stopping." << std::endl;
+                break;
+            }
+        } else {
+            std::cerr << "[Iterative] Error reading result size." << std::endl;
+            break;
+        }
+    }
+
+    std::remove(tempIterOutput.c_str());
+    std::cout << "[Iterative] Final Result: " << bestCost << " AND gates." << std::endl;
+    return 0;
 }

@@ -6,7 +6,7 @@ ABC_DIR="./third_party/abc"
 # Path to the ABC binary
 ABC_BIN="$ABC_DIR/abc"
 
-# --- 1. Check and Build ABC ---
+# --- 1. Check and Build ABC (Preserved) ---
 if [ ! -f "$ABC_BIN" ]; then
     echo "[*] ABC binary not found at $ABC_BIN"
     
@@ -30,7 +30,9 @@ if [ ! -f "$ABC_BIN" ]; then
     
     echo "[*] Build successful."
 else
-    echo "[*] ABC binary found."
+    # Commented out to reduce noise in the main optimization loop
+    # echo "[*] ABC binary found."
+    : 
 fi
 
 # --- 2. Verify Arguments ---
@@ -56,13 +58,21 @@ if [ ! -f "$FILE2" ]; then
 fi
 
 # --- 3. Run Equivalence Checking ---
-echo "----------------------------------------"
-echo "Comparing:"
-echo "  1: $FILE1"
-echo "  2: $FILE2"
-echo "----------------------------------------"
+# We capture the output silently so we can parse it.
+# 2>&1 merges stderr into stdout so we catch everything.
 
-# Run ABC in command mode (-c)
-# 1. read the first file
-# 2. run combinational equivalence check (cec) against the second file
-"$ABC_BIN" -c "read $FILE1; cec $FILE2"
+OUTPUT=$("$ABC_BIN" -c "read $FILE1; cec $FILE2" 2>&1)
+
+# Check for the specific success string that ABC prints
+if echo "$OUTPUT" | grep -q "Networks are equivalent"; then
+    # Success: Return 0
+    echo "[Check] Equivalent."
+    exit 0
+else
+    # Failure: Return 1 and print what went wrong
+    echo "[Check] Verification FAILED!"
+    echo "--- ABC Output ---"
+    echo "$OUTPUT"
+    echo "------------------"
+    exit 1
+fi
