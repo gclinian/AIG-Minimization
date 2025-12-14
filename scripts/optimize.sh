@@ -13,7 +13,7 @@ TOTAL_BUDGET_SEC="${3:-3600}"
 
 # Tool Paths
 TOOL_ESLIM="./bin/eslim/main"
-TOOL_TEAMMATE_A="./bin/teammate_a/optimizer"
+TOOL_SIMPLIFIER="./bin/simplifier/main"
 TOOL_TEAMMATE_B="./bin/teammate_b/optimizer"
 CHECKER_SCRIPT="./scripts/check_aig.sh"  # <--- Now pointing to your script
 
@@ -136,7 +136,7 @@ fi
 
 for i in {1..5}; do
     echo "--- Iteration $i / 5 ---"
-    run_tool_step "$TOOL_TEAMMATE_A" "Step 1 (Teammate A)" "yes"
+    run_tool_step "$TOOL_SIMPLIFIER" "Step 1 (Simplifier)" "yes"
     run_tool_step "$TOOL_ESLIM"      "Step 2 (eSLIM)"      "no"
     run_tool_step "$TOOL_TEAMMATE_B" "Step 3 (Teammate B)" "yes"
 done
