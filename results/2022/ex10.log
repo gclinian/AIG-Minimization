@@ -1,0 +1,42 @@
+Phase 1: Initialization
+[Config] Total Limit: 600s | Iteration Limit: 300s
+[Main] Detected .truth file. Starting ABC Synthesis...
+[ABC] Starting Optimization...
+[ABC] Constructing network: 5 inputs, 1 outputs.
+[ABC] Optimization successful.
+[Main] Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 600s, Step Budget: 300s
+[Fallback] Copied temp_abc_result.aig to current_best.aig
+[Iterative] Initial Size: 30 AND gates.
+[Iterative] Iteration 1 (Limit: 300s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 300 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 9155912449822926039
+INFO:root:Available time used up. Nof considered subcircuits: 2179
+INFO:root:Initial #gates: 30; Final #gates: 10
+Initial Depth:     7
+Initial Nof gates: 30
+Total time: 300.4383170604706
+Initial #gates: 30; current #gates: 10
+Initial depth: 7; current depth: 6
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 30 -> 10
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to current_best.aig
+[Iterative] Iteration 2 (Limit: 300s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 300 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 3990673482973234945
+INFO:root:Available time used up. Nof considered subcircuits: 2115
+INFO:root:Initial #gates: 10; Final #gates: 10
+Initial Depth:     6
+Initial Nof gates: 10
+Total time: 300.08412432670593
+Initial #gates: 10; current #gates: 10
+Initial depth: 6; current depth: 5
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 10 -> 10
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 10 AND gates.
+--- Iteration 1 / 5 ---
+[Timeout] Global time limit reached.
+
+[System] Saved best result to: ./results/2022/ex10.aig

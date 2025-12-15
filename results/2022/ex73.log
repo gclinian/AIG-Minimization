@@ -1,0 +1,44 @@
+Phase 1: Initialization
+[Config] Total Limit: 600s | Iteration Limit: 300s
+[Main] Detected .truth file. Starting ABC Synthesis...
+[ABC] Starting Optimization...
+[ABC] Constructing network: 12 inputs, 3 outputs.
+[ABC] Optimization successful.
+[Main] Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 600s, Step Budget: 300s
+[Fallback] Copied temp_abc_result.aig to current_best.aig
+[Iterative] Initial Size: 4737 AND gates.
+[Iterative] Iteration 1 (Limit: 300s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 300 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 6636960262527923515
+INFO:root:Available time used up. Nof considered subcircuits: 1732
+INFO:root:Initial #gates: 4737; Final #gates: 1634
+Initial Depth:     18
+Initial Nof gates: 4737
+Total time: 300.20537662506104
+Initial #gates: 4737; current #gates: 1634
+Initial depth: 18; current depth: 77
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 4737 -> 1621
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to current_best.aig
+[Iterative] Iteration 2 (Limit: 300s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 300 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 1814270431599187109
+INFO:root:Available time used up. Nof considered subcircuits: 1272
+INFO:root:Initial #gates: 1621; Final #gates: 1124
+Initial Depth:     76
+Initial Nof gates: 1621
+Total time: 300.01385521888733
+Initial #gates: 1621; current #gates: 1124
+Initial depth: 76; current depth: 63
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 1621 -> 1122
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to current_best.aig
+[Iterative] Total time limit reached.
+[Iterative] Final Result: 1122 AND gates.
+--- Iteration 1 / 5 ---
+[Timeout] Global time limit reached.
+
+[System] Saved best result to: ./results/2022/ex73.aig
