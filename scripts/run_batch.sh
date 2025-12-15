@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ==============================================================================
-# Batch Runner for IWLS 2025 Benchmarks
+# Batch Runner for IWLS 2025 Benchmarks (Zero-Padded)
 # Usage: ./run_batch.sh [time_limit_per_case]
 # ==============================================================================
 
@@ -9,14 +9,12 @@
 BENCH_DIR="./benchmarks/2022"
 RESULT_DIR="./results/2022"
 SCRIPT="./scripts/optimize.sh"
-TIME_LIMIT="${1:-600}"  # Default 600s (10 mins) per case if not specified
+TIME_LIMIT="${1:-600}"  # Default 600s (10 mins) per case
 
-# Define the specific test case numbers you want to run
-# Syntax: Numbers separated by spaces. Ranges like {1..10} expand automatically.
-CASES=( {1..10} 20 30 40 50 60 70 80 90 99 )
+# Define the specific test case numbers
+CASES=( {1..10} 33 50 {73..75} )
 
 # 2. Setup
-# Ensure result directory exists
 mkdir -p "$RESULT_DIR"
 
 if [ ! -x "$SCRIPT" ]; then
@@ -35,8 +33,12 @@ echo "=========================================================="
 
 # 3. Main Loop
 for ID in "${CASES[@]}"; do
-    INPUT_FILE="${BENCH_DIR}/ex${ID}.truth"
-    OUTPUT_FILE="${RESULT_DIR}/ex${ID}.aig"
+    # Format ID to 2 digits with leading zero (e.g., 1 -> 01)
+    CASE_ID=$(printf "%02d" "$ID")
+    
+    INPUT_FILE="${BENCH_DIR}/ex${CASE_ID}.truth"
+    OUTPUT_FILE="${RESULT_DIR}/ex${CASE_ID}.aig"
+    LOG_FILE="${RESULT_DIR}/ex${CASE_ID}.log"
 
     # Check if input exists
     if [ ! -f "$INPUT_FILE" ]; then
@@ -46,25 +48,21 @@ for ID in "${CASES[@]}"; do
 
     # Check if output already exists (Skip if done)
     if [ -f "$OUTPUT_FILE" ]; then
-        echo "[Skip] Result already exists for ex${ID}"
+        echo "[Skip] Result already exists for ex${CASE_ID}"
         continue
     fi
 
     echo ""
-    echo ">>> Processing ex${ID} ..."
+    echo ">>> Processing ex${CASE_ID} ..."
     
-    # Run the optimization pipeline
-    # We redirect stdout to a log file to keep the terminal clean, 
-    # but print errors to stderr.
-    LOG_FILE="${RESULT_DIR}/ex${ID}.log"
-    
+    # Run the pipeline and capture log
+    # We use '2>&1' to capture both standard output and errors in the log
     $SCRIPT "$INPUT_FILE" "$OUTPUT_FILE" "$TIME_LIMIT" > "$LOG_FILE" 2>&1
     
-    # Check exit code of the script
     if [ $? -eq 0 ]; then
-        echo "[Done] ex${ID} finished successfully."
+        echo "[Done] ex${CASE_ID} finished successfully."
     else
-        echo "[Fail] ex${ID} encountered an error. Check log: $LOG_FILE"
+        echo "[Fail] ex${CASE_ID} encountered an error. Check log: $LOG_FILE"
     fi
 done
 
