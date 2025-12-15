@@ -46,9 +46,14 @@ help:
 
 # --- Python 虛擬環境與 cirbo ---
 venv:
-	python3 -m venv $(VENV)
+	@echo "Creating venv without pip (bypassing system limitation)..."
+	python3 -m venv $(VENV) --without-pip
+	
+	@echo "Manually installing pip..."
+	wget -qO- https://bootstrap.pypa.io/get-pip.py | $(VENV)/bin/python
+	
+	@echo "Installing requirements..."
 	. $(VENV)/bin/activate && \
-		pip install -U pip && \
 		pip install -r requirement.txt
 
 cirbo: venv
