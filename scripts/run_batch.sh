@@ -9,10 +9,10 @@
 BENCH_DIR="./benchmarks/2022"
 RESULT_DIR="./results/2022"
 SCRIPT="./scripts/optimize.sh"
-TIME_LIMIT="${1:-600}"  # Default 600s (10 mins) per case
+TIME_LIMIT="${1:-1800}"  # Default 1800s (30 mins) per case
 
 # Define the specific test case numbers
-CASES=( {1..10} 33 50 {73..75} )
+CASES=( {20..25} {40..44} {90..99} )
 
 # 2. Setup
 mkdir -p "$RESULT_DIR"

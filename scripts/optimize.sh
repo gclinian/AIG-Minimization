@@ -18,7 +18,7 @@ TOOL_TEAMMATE_B="./bin/teammate_b/optimizer"
 CHECKER_SCRIPT="./scripts/check_aig.sh"
 
 # eSlim Config
-ITER_TIME=300
+ITER_TIME=180
 
 # --- 2. Validation & Setup ---
 
