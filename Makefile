@@ -63,3 +63,10 @@ eslim: venv
 		$(MAKE)
 	@touch third_party/eslim/src/bindings/__init__.py
 	@touch third_party/eslim/src/bindings/build/__init__.py
+
+simplifier:
+	@echo "Building External Simplifier (CMake)..."
+	@mkdir -p third_party/simplifier/build
+	@cd third_party/simplifier/build && \
+		cmake .. -DCMAKE_BUILD_TYPE=Release && \
+		$(MAKE) -j$$(nproc)

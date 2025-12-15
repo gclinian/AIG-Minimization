@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ==============================================================================
-# IWLS 2025 Optimization Pipeline (Time-Bounded + Modular Verification)
+# IWLS 2025 Optimization Pipeline (Fixed Timer Logic)
 # Usage: ./optimize.sh <input_file> <output_aig> [total_time_seconds]
 # ==============================================================================
 
@@ -15,7 +15,7 @@ TOTAL_BUDGET_SEC="${3:-3600}"
 TOOL_ESLIM="./bin/eslim/main"
 TOOL_SIMPLIFIER="./bin/simplifier/main"
 TOOL_TEAMMATE_B="./bin/teammate_b/optimizer"
-CHECKER_SCRIPT="./scripts/check_aig.sh"  # <--- Now pointing to your script
+CHECKER_SCRIPT="./scripts/check_aig.sh"
 
 # eSlim Config
 ITER_TIME=300
@@ -39,23 +39,21 @@ END_TIME=$((START_TIME + TOTAL_BUDGET_SEC))
 
 # --- 3. Helper Functions ---
 
+# FIXED: Purely calculates time. Does NOT exit.
 function get_remaining_time {
     local now=$(date +%s)
-    local remaining=$((END_TIME - now))
-    if [ "$remaining" -le 0 ]; then
-        echo ""
-        echo "[Timeout] Global time limit reached!"
-        finalize_and_exit
-    fi
-    echo "$remaining"
+    echo $((END_TIME - now))
 }
 
 function finalize_and_exit {
+    echo ""
     if [ -f "current_best.aig" ]; then
         cp "current_best.aig" "$OUTPUT_FILE"
         echo "[System] Saved best result to: $OUTPUT_FILE"
+    else 
+        echo "[System] No result generated."
     fi
-    rm -f "current_best.aig" "temp_next.aig" "golden.aig"
+    rm -f "current_best.aig" "temp_next.aig" "golden.aig" "cec.log"
     exit 0
 }
 
@@ -63,31 +61,34 @@ function run_tool_step {
     local tool_path="$1"
     local step_name="$2"
     local use_timeout_cmd="$3"
+    local extra_args="$4"
     
+    # 1. Check Time BEFORE running
     local rem_time=$(get_remaining_time)
     
+    if [ "$rem_time" -le 0 ]; then
+        echo "[Timeout] Time limit reached before $step_name."
+        finalize_and_exit
+    fi
+
     if [ -f "$tool_path" ]; then
         echo "[$step_name] Running... (Max: ${rem_time}s)"
         
         # Execute Tool
         if [ "$use_timeout_cmd" == "yes" ]; then
-            timeout "$rem_time" $tool_path "current_best.aig" "temp_next.aig"
+            timeout "$rem_time" $tool_path "current_best.aig" "temp_next.aig" $extra_args
         else
-            $tool_path "current_best.aig" "temp_next.aig" "time_limit=$rem_time" "iter_time=$ITER_TIME"
+            $tool_path "current_best.aig" "temp_next.aig" "time_limit=$rem_time" $extra_args
         fi
 
-        # Verify Result using external script
+        # Verify Result
         if [ -f "temp_next.aig" ]; then
-            
-            # CALLING THE EXTERNAL CHECKER
             $CHECKER_SCRIPT "golden.aig" "temp_next.aig"
-            
-            # Check the return value (exit code) of check_aig.sh
             if [ $? -eq 0 ]; then
                 echo "   [Pass] Verified."
                 mv "temp_next.aig" "current_best.aig"
             else
-                echo "   [FAIL] Verification Failed (or script error). Discarding result."
+                echo "   [FAIL] Verification Failed. Discarding result."
                 rm "temp_next.aig"
             fi
         fi
@@ -99,7 +100,7 @@ function run_tool_step {
 trap finalize_and_exit SIGINT SIGTERM
 
 # ==============================================================================
-# PHASE 1: INITIAL PASS & GOLDEN REFERENCE
+# PHASE 1: INITIAL PASS
 # ==============================================================================
 
 echo "Phase 1: Initialization"
@@ -109,8 +110,12 @@ if [[ "$INPUT_FILE" == *.aig ]]; then
     cp "$INPUT_FILE" "golden.aig"
 fi
 
-# 2. Run Initial Synthesis
+# 2. Check Time
 REMAINING=$(get_remaining_time)
+if [ "$REMAINING" -le 0 ]; then finalize_and_exit; fi
+
+# 3. Run Initial Synthesis
+# Note: If time runs out HERE, eSLIM will handle it internally via time_limit
 $TOOL_ESLIM "$INPUT_FILE" "current_best.aig" "time_limit=$REMAINING" "iter_time=$ITER_TIME"
 
 if [ ! -f "current_best.aig" ]; then
@@ -118,14 +123,13 @@ if [ ! -f "current_best.aig" ]; then
     exit 1
 fi
 
-# 3. Finalize Golden Reference (if input was truth table)
+# 4. Finalize Golden Reference
 if [ ! -f "golden.aig" ]; then
     cp "current_best.aig" "golden.aig"
 else
-    # Verify Phase 1 didn't corrupt the AIG input
     $CHECKER_SCRIPT "golden.aig" "current_best.aig"
     if [ $? -ne 0 ]; then
-         echo "[Fatal] Initial pass corrupted the circuit!"
+         echo "[Fatal] Initial pass corrupted the circuit! Reverting."
          cp "golden.aig" "current_best.aig"
     fi
 fi
@@ -136,9 +140,17 @@ fi
 
 for i in {1..5}; do
     echo "--- Iteration $i / 5 ---"
-    run_tool_step "$TOOL_SIMPLIFIER" "Step 1 (Simplifier)" "yes"
-    run_tool_step "$TOOL_ESLIM"      "Step 2 (eSLIM)"      "no"
-    run_tool_step "$TOOL_TEAMMATE_B" "Step 3 (Teammate B)" "yes"
+    
+    # Check global time at start of iteration
+    REMAINING=$(get_remaining_time)
+    if [ "$REMAINING" -le 0 ]; then 
+        echo "[Timeout] Global time limit reached."
+        finalize_and_exit
+    fi
+
+    run_tool_step "$TOOL_SIMPLIFIER" "Step 1 (Simplifier)" "yes" ""
+    run_tool_step "$TOOL_ESLIM"      "Step 2 (eSLIM)"      "no"  "iter_time=$ITER_TIME"
+    run_tool_step "$TOOL_TEAMMATE_B" "Step 3 (Teammate B)" "yes" ""
 done
 
 echo "[Success] Optimization loop completed."
