@@ -1,0 +1,156 @@
+Phase 1: Initialization (Sandbox: /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z)
+[Config] Total Limit: 1800s | Iteration Limit: 180s
+[Main] Detected .truth file. Starting ABC Synthesis...
+[ABC] Starting Optimization...
+[ABC] Constructing network: 12 inputs, 3 outputs.
+[ABC] Optimization successful.
+[Main] Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1800s, Step Budget: 180s
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.abc_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Initial Size: 4256 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 2880431777026258972
+INFO:root:Available time used up. Nof considered subcircuits: 622
+INFO:root:Initial #gates: 4256; Final #gates: 3661
+Initial Depth:     19
+Initial Nof gates: 4256
+Total time: 180.4729037284851
+Initial #gates: 4256; current #gates: 3661
+Initial depth: 19; current depth: 50
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 4256 -> 3580
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 2 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 7483371349886450994
+INFO:root:Available time used up. Nof considered subcircuits: 782
+INFO:root:Initial #gates: 3580; Final #gates: 2409
+Initial Depth:     50
+Initial Nof gates: 3580
+Total time: 180.72454023361206
+Initial #gates: 3580; current #gates: 2409
+Initial depth: 50; current depth: 63
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 3580 -> 2361
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 3 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 4562713497423129045
+INFO:root:Available time used up. Nof considered subcircuits: 684
+INFO:root:Initial #gates: 2361; Final #gates: 1613
+Initial Depth:     62
+Initial Nof gates: 2361
+Total time: 180.2142641544342
+Initial #gates: 2361; current #gates: 1613
+Initial depth: 62; current depth: 58
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 2361 -> 1595
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 4 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 5559609650171152055
+INFO:root:Available time used up. Nof considered subcircuits: 497
+INFO:root:Initial #gates: 1595; Final #gates: 1351
+Initial Depth:     58
+Initial Nof gates: 1595
+Total time: 180.43369102478027
+Initial #gates: 1595; current #gates: 1351
+Initial depth: 58; current depth: 91
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 1595 -> 1348
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 5 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 1554864262612138451
+INFO:root:Available time used up. Nof considered subcircuits: 515
+INFO:root:Initial #gates: 1348; Final #gates: 1210
+Initial Depth:     91
+Initial Nof gates: 1348
+Total time: 180.5093743801117
+Initial #gates: 1348; current #gates: 1210
+Initial depth: 91; current depth: 75
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 1348 -> 1208
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 6 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 3630552821770477321
+INFO:root:Available time used up. Nof considered subcircuits: 530
+INFO:root:Initial #gates: 1208; Final #gates: 1123
+Initial Depth:     75
+Initial Nof gates: 1208
+Total time: 180.44448494911194
+Initial #gates: 1208; current #gates: 1123
+Initial depth: 75; current depth: 71
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 1208 -> 1120
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 7 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 6725024025274451463
+INFO:root:Available time used up. Nof considered subcircuits: 586
+INFO:root:Initial #gates: 1120; Final #gates: 1051
+Initial Depth:     71
+Initial Nof gates: 1120
+Total time: 180.0013988018036
+Initial #gates: 1120; current #gates: 1051
+Initial depth: 71; current depth: 99
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 1120 -> 1050
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 8 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 8384101161878925745
+INFO:root:Available time used up. Nof considered subcircuits: 552
+INFO:root:Initial #gates: 1050; Final #gates: 1022
+Initial Depth:     99
+Initial Nof gates: 1050
+Total time: 180.34829235076904
+Initial #gates: 1050; current #gates: 1022
+Initial depth: 99; current depth: 82
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 1050 -> 1020
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 9 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 180 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 920323642534312850
+INFO:root:Available time used up. Nof considered subcircuits: 507
+INFO:root:Initial #gates: 1020; Final #gates: 971
+Initial Depth:     82
+Initial Nof gates: 1020
+Total time: 180.27628564834595
+Initial #gates: 1020; current #gates: 971
+Initial depth: 82; current depth: 66
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 1020 -> 971
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Iteration 10 (Limit: 176s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig 176 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 7851222479903316064
+INFO:root:Available time used up. Nof considered subcircuits: 467
+INFO:root:Initial #gates: 971; Final #gates: 938
+Initial Depth:     66
+Initial Nof gates: 971
+Total time: 176.0956904888153
+Initial #gates: 971; current #gates: 938
+Initial depth: 66; current depth: 89
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 971 -> 936
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_4smg5Z/current_best.aig
+[Iterative] Total time limit reached.
+[Iterative] Final Result: 936 AND gates.
+--- Iteration 1 / 5 ---
+[Timeout] Global time limit reached.
+
+[System] Saved best result to: ./results/2022/ex87.aig
