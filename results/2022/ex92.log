@@ -1,0 +1,237 @@
+Phase 1: Initialization
+[Config] Total Limit: 1800s | Iteration Limit: 180s
+[Main] Detected .truth file. Starting ABC Synthesis...
+[ABC] Starting Optimization...
+[ABC] Constructing network: 10 inputs, 3 outputs.
+[ABC] Optimization successful.
+[Main] Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1800s, Step Budget: 180s
+[Fallback] Copied temp_abc_result.aig to current_best.aig
+[Iterative] Initial Size: 1314 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 4610268871945901966
+Initial Depth:     17
+Initial Nof gates: 1314
+Traceback (most recent call last):
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/reduce.py", line 176, in <module>
+    synthesiser.reduce((limit, iteration_limit))
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/synthesisManager.py", line 70, in reduce
+    synth = self._applyReduction(budget)
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/synthesisManager.py", line 99, in _applyReduction
+    synthesiser.reduce(budget, self.config.initial_subcircuit_size)
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/synthesiser.py", line 37, in reduce
+    self._traverseGates(available_iterations)
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/synthesiser.py", line 132, in _traverseGates
+    synth_res = self._replaceSubcircuit(to_replace, self.config.gate_size)
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/synthesiser.py", line 220, in _replaceSubcircuit
+    val = self.synthesiser.reduce(to_replace, nof_inputs, self.config.require_reduction, self.dependency_constraints)
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/subcircuitSynthesiser.py", line 644, in reduce
+    unused = self.specification.replaceSubcircuit(to_replace, gates, output_association)
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/specification.py", line 478, in replaceSubcircuit
+    self.setGateLevels()
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/specification.py", line 499, in setGateLevels
+    self.alias2level[x] = 1 + max(self.alias2level[y] for y in self.getGateInputs(x))
+  File "/raid4/courses/eda2025f/eda25f17/AIG-Minimization/third_party/eslim/src/specification.py", line 499, in <genexpr>
+    self.alias2level[x] = 1 + max(self.alias2level[y] for y in self.getGateInputs(x))
+KeyError: 646
+[C++] eSLIM optimization failed (return code 256).
+[Iterative] eSLIM run failed or timed out hard. Stopping.
+[Iterative] Final Result: 1314 AND gates.
+--- Iteration 1 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 1794s)
+<Simplifier>(Tue Dec 16 05:44:17 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Verification FAILED!
+--- ABC Output ---
+
+======== ABC command line "read golden.aig; cec temp_next.aig"
+Networks are NOT EQUIVALENT.  Time =     0.02 sec
+Verification failed for at least 1 outputs:  po1
+Output po1: Value in Network1 = 0. Value in Network2 = 1.
+Input pattern:  pi9=0 pi7=0 pi8=0 pi6=1 pi4=0 pi5=0 pi3=1 pi2=0 pi0=0 pi1=1
+------------------
+   [FAIL] Verification Failed. Discarding result.
+[Step 2 (eSLIM)] Running... (Max: 1792s)
+[Config] Total Limit: 1792s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1792s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 1314 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 6402687175134664087
+INFO:root:Available time used up. Nof considered subcircuits: 936
+INFO:root:Initial #gates: 1314; Final #gates: 33
+Initial Depth:     17
+Initial Nof gates: 1314
+Total time: 180.19651198387146
+Initial #gates: 1314; current #gates: 33
+Initial depth: 17; current depth: 17
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 1314 -> 33
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to temp_next.aig
+[Iterative] Iteration 2 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 1417311609317163956
+INFO:root:Available time used up. Nof considered subcircuits: 548
+INFO:root:Initial #gates: 33; Final #gates: 33
+Initial Depth:     17
+Initial Nof gates: 33
+Total time: 180.64492440223694
+Initial #gates: 33; current #gates: 33
+Initial depth: 17; current depth: 9
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 33 -> 33
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 33 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 2 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 1430s)
+<Simplifier>(Tue Dec 16 05:50:20 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Verification FAILED!
+--- ABC Output ---
+
+======== ABC command line "read golden.aig; cec temp_next.aig"
+Networks are NOT EQUIVALENT.  Time =     0.02 sec
+Verification failed for at least 1 outputs:  po1
+Output po1: Value in Network1 = 0. Value in Network2 = 1.
+Input pattern:  pi9=0 pi7=0 pi8=0 pi6=0 pi4=0 pi5=0 pi3=0 pi2=0 pi0=1 pi1=1
+------------------
+   [FAIL] Verification Failed. Discarding result.
+[Step 2 (eSLIM)] Running... (Max: 1429s)
+[Config] Total Limit: 1429s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1429s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 33 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 1768486939305360736
+INFO:root:Available time used up. Nof considered subcircuits: 718
+INFO:root:Initial #gates: 33; Final #gates: 33
+Initial Depth:     17
+Initial Nof gates: 33
+Total time: 180.37457275390625
+Initial #gates: 33; current #gates: 33
+Initial depth: 17; current depth: 13
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 33 -> 33
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 33 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 3 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 1248s)
+<Simplifier>(Tue Dec 16 05:53:23 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Verification FAILED!
+--- ABC Output ---
+
+======== ABC command line "read golden.aig; cec temp_next.aig"
+Networks are NOT EQUIVALENT.  Time =     0.02 sec
+Verification failed for at least 1 outputs:  po1
+Output po1: Value in Network1 = 0. Value in Network2 = 1.
+Input pattern:  pi9=0 pi7=0 pi8=0 pi6=0 pi4=0 pi5=0 pi3=0 pi2=0 pi0=1 pi1=1
+------------------
+   [FAIL] Verification Failed. Discarding result.
+[Step 2 (eSLIM)] Running... (Max: 1246s)
+[Config] Total Limit: 1246s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1246s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 33 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 2093068907675629949
+INFO:root:Available time used up. Nof considered subcircuits: 618
+INFO:root:Initial #gates: 33; Final #gates: 33
+Initial Depth:     17
+Initial Nof gates: 33
+Total time: 180.7287437915802
+Initial #gates: 33; current #gates: 33
+Initial depth: 17; current depth: 15
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 33 -> 33
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 33 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 4 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 1064s)
+<Simplifier>(Tue Dec 16 05:56:26 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Verification FAILED!
+--- ABC Output ---
+
+======== ABC command line "read golden.aig; cec temp_next.aig"
+Networks are NOT EQUIVALENT.  Time =     0.02 sec
+Verification failed for at least 1 outputs:  po1
+Output po1: Value in Network1 = 0. Value in Network2 = 1.
+Input pattern:  pi9=0 pi7=0 pi8=0 pi6=0 pi4=0 pi5=0 pi3=0 pi2=0 pi0=1 pi1=1
+------------------
+   [FAIL] Verification Failed. Discarding result.
+[Step 2 (eSLIM)] Running... (Max: 1062s)
+[Config] Total Limit: 1062s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1062s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 33 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 3048288026353141813
+INFO:root:Available time used up. Nof considered subcircuits: 641
+INFO:root:Initial #gates: 33; Final #gates: 33
+Initial Depth:     17
+Initial Nof gates: 33
+Total time: 180.03536367416382
+Initial #gates: 33; current #gates: 33
+Initial depth: 17; current depth: 11
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 33 -> 33
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 33 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 5 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 882s)
+<Simplifier>(Tue Dec 16 05:59:29 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Verification FAILED!
+--- ABC Output ---
+
+======== ABC command line "read golden.aig; cec temp_next.aig"
+Networks are NOT EQUIVALENT.  Time =     0.02 sec
+Verification failed for at least 1 outputs:  po1
+Output po1: Value in Network1 = 0. Value in Network2 = 1.
+Input pattern:  pi9=0 pi7=0 pi8=0 pi6=0 pi4=0 pi5=0 pi3=0 pi2=0 pi0=1 pi1=1
+------------------
+   [FAIL] Verification Failed. Discarding result.
+[Step 2 (eSLIM)] Running... (Max: 879s)
+[Config] Total Limit: 879s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 879s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 33 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 972469612825019037
+INFO:root:Available time used up. Nof considered subcircuits: 617
+INFO:root:Initial #gates: 33; Final #gates: 33
+Initial Depth:     17
+Initial Nof gates: 33
+Total time: 180.92023420333862
+Initial #gates: 33; current #gates: 33
+Initial depth: 17; current depth: 11
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 33 -> 33
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 33 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+[Success] Optimization loop completed.
+
+[System] Saved best result to: ./results/2022/ex92.aig

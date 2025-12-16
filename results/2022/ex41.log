@@ -1,0 +1,210 @@
+Phase 1: Initialization
+[Config] Total Limit: 1800s | Iteration Limit: 180s
+[Main] Detected .truth file. Starting ABC Synthesis...
+[ABC] Starting Optimization...
+[ABC] Constructing network: 5 inputs, 3 outputs.
+[ABC] Optimization successful.
+[Main] Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1800s, Step Budget: 180s
+[Fallback] Copied temp_abc_result.aig to current_best.aig
+[Iterative] Initial Size: 63 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 1216903291345626290
+INFO:root:Available time used up. Nof considered subcircuits: 967
+INFO:root:Initial #gates: 63; Final #gates: 19
+Initial Depth:     9
+Initial Nof gates: 63
+Total time: 180.02697348594666
+Initial #gates: 63; current #gates: 19
+Initial depth: 9; current depth: 9
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 63 -> 19
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to current_best.aig
+[Iterative] Iteration 2 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 3711753276988007956
+INFO:root:Available time used up. Nof considered subcircuits: 1028
+INFO:root:Initial #gates: 19; Final #gates: 17
+Initial Depth:     9
+Initial Nof gates: 19
+Total time: 180.06884384155273
+Initial #gates: 19; current #gates: 17
+Initial depth: 9; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 19 -> 17
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to current_best.aig
+[Iterative] Iteration 3 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py current_best.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 7461654889825645321
+INFO:root:Available time used up. Nof considered subcircuits: 1118
+INFO:root:Initial #gates: 17; Final #gates: 17
+Initial Depth:     8
+Initial Nof gates: 17
+Total time: 180.11221146583557
+Initial #gates: 17; current #gates: 17
+Initial depth: 8; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 17 -> 17
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 17 AND gates.
+--- Iteration 1 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 1259s)
+<Simplifier>(Tue Dec 16 02:53:07 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 1256s)
+[Config] Total Limit: 1256s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 1256s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 30 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 7241271776315921800
+INFO:root:Available time used up. Nof considered subcircuits: 1123
+INFO:root:Initial #gates: 30; Final #gates: 17
+Initial Depth:     12
+Initial Nof gates: 30
+Total time: 180.74466705322266
+Initial #gates: 30; current #gates: 17
+Initial depth: 12; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 30 -> 17
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to temp_next.aig
+[Iterative] Iteration 2 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 5507544473450841838
+INFO:root:Available time used up. Nof considered subcircuits: 1129
+INFO:root:Initial #gates: 17; Final #gates: 17
+Initial Depth:     8
+Initial Nof gates: 17
+Total time: 180.27684998512268
+Initial #gates: 17; current #gates: 17
+Initial depth: 8; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 17 -> 17
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 17 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 2 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 895s)
+<Simplifier>(Tue Dec 16 02:59:11 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 893s)
+[Config] Total Limit: 893s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 893s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 26 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 6211840894209882551
+INFO:root:Available time used up. Nof considered subcircuits: 1031
+INFO:root:Initial #gates: 26; Final #gates: 17
+Initial Depth:     12
+Initial Nof gates: 26
+Total time: 180.4949290752411
+Initial #gates: 26; current #gates: 17
+Initial depth: 12; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 26 -> 17
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to temp_next.aig
+[Iterative] Iteration 2 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 3205328596642852890
+INFO:root:Available time used up. Nof considered subcircuits: 1263
+INFO:root:Initial #gates: 17; Final #gates: 17
+Initial Depth:     8
+Initial Nof gates: 17
+Total time: 180.43391132354736
+Initial #gates: 17; current #gates: 17
+Initial depth: 8; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 17 -> 17
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 17 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 3 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 531s)
+<Simplifier>(Tue Dec 16 03:05:15 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 529s)
+[Config] Total Limit: 529s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 529s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 28 AND gates.
+[Iterative] Iteration 1 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 8055396912328063034
+INFO:root:Available time used up. Nof considered subcircuits: 1170
+INFO:root:Initial #gates: 28; Final #gates: 17
+Initial Depth:     12
+Initial Nof gates: 28
+Total time: 180.6488196849823
+Initial #gates: 28; current #gates: 17
+Initial depth: 12; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 28 -> 17
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to temp_next.aig
+[Iterative] Iteration 2 (Limit: 180s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 180 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 111370556942864487
+INFO:root:Available time used up. Nof considered subcircuits: 1087
+INFO:root:Initial #gates: 17; Final #gates: 17
+Initial Depth:     8
+Initial Nof gates: 17
+Total time: 180.05930066108704
+Initial #gates: 17; current #gates: 17
+Initial depth: 8; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 17 -> 17
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 17 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 4 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 168s)
+<Simplifier>(Tue Dec 16 03:11:18 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 165s)
+[Config] Total Limit: 165s | Iteration Limit: 180s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 165s, Step Budget: 180s
+[Fallback] Copied current_best.aig to temp_next.aig
+[Iterative] Initial Size: 30 AND gates.
+[Iterative] Iteration 1 (Limit: 165s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py temp_next.aig temp_iter_out.aig 165 --aig --aig-out temp_iter_out.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 6468005738481784268
+INFO:root:Available time used up. Nof considered subcircuits: 1041
+INFO:root:Initial #gates: 30; Final #gates: 17
+Initial Depth:     12
+Initial Nof gates: 30
+Total time: 165.86737322807312
+Initial #gates: 30; current #gates: 17
+Initial depth: 12; current depth: 8
+[C++] eSLIM optimization complete. Saved to temp_iter_out.aig
+[Iterative] Size change: 30 -> 17
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied temp_iter_out.aig to temp_next.aig
+[Iterative] Total time limit reached.
+[Iterative] Final Result: 17 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Timeout] Time limit reached before Step 3 (Teammate B).
+
+[System] Saved best result to: ./results/2022/ex41.aig
