@@ -34,9 +34,12 @@ This command will:
 
 -   **`third_party/`**: Third-party dependencies.
     -   **`abc/`**: The ABC tool source code (submodule).
+    -   **`eSlim/`**: The eSlim tool source code (submodule).
+    -   **`sinplifier/`**: The simplifier source code (submodule).
 -   **`bin/`**: All compiled executables will be placed here, mirroring the source directory structure.
 -   **`benchmarks/`**: Truth table files and other benchmarks.
--   **`example/`**: Example source code (e.g., `main.cpp`).
+-   **`src/`**: Implemented AIG-Minimization by different method.
+-   **`scripts/`**: Shell scripts for automated execution and equivalent checking.
 
 ## How to Add New Code
 
