@@ -1,0 +1,197 @@
+Phase 1: Initialization (Sandbox: /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3)
+[Config] Total Limit: 14400s | Iteration Limit: 600s
+[Main] Detected .truth file. Starting ABC Synthesis...
+[ABC] Starting Optimization...
+[ABC] Constructing network: 8 inputs, 2 outputs.
+[ABC] Optimization successful.
+[Main] Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 14400s, Step Budget: 600s
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.abc_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig
+[Iterative] Initial Size: 323 AND gates.
+[Iterative] Iteration 1 (Limit: 600s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.iter_tmp.aig 600 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 8782240647531006967
+INFO:root:Available time used up. Nof considered subcircuits: 19971
+INFO:root:Initial #gates: 323; Final #gates: 13
+Initial Depth:     15
+Initial Nof gates: 323
+Total time: 600.750855922699
+Initial #gates: 323; current #gates: 13
+Initial depth: 15; current depth: 6
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 323 -> 13
+[Iterative] Improvement found! Updating best result.
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.iter_tmp.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig
+[Iterative] Iteration 2 (Limit: 600s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.iter_tmp.aig 600 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 4300876927218435106
+INFO:root:Available time used up. Nof considered subcircuits: 31048
+INFO:root:Initial #gates: 13; Final #gates: 13
+Initial Depth:     6
+Initial Nof gates: 13
+Total time: 600.0236341953278
+Initial #gates: 13; current #gates: 13
+Initial depth: 6; current depth: 4
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig.iter_tmp.aig
+[Iterative] Size change: 13 -> 13
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 13 AND gates.
+--- Iteration 1 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 13198s)
+<Simplifier>(Tue Dec 16 14:08:23 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Check] Verification FAILED!
+--- ABC Output ---
+
+======== ABC command line "read /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/golden.aig; cec /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig"
+Networks are NOT EQUIVALENT.  Time =     0.01 sec
+Verification failed for at least 1 outputs:  po0
+Output po0: Value in Network1 = 0. Value in Network2 = 1.
+Input pattern:  pi5=0 pi7=0
+------------------
+   [FAIL] Verification Failed. Discarding result.
+[Step 2 (eSLIM)] Running... (Max: 13195s)
+[Config] Total Limit: 13195s | Iteration Limit: 600s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 13195s, Step Budget: 600s
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig
+[Iterative] Initial Size: 13 AND gates.
+[Iterative] Iteration 1 (Limit: 600s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig 600 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 1816422776936873802
+INFO:root:Available time used up. Nof considered subcircuits: 26188
+INFO:root:Initial #gates: 13; Final #gates: 13
+Initial Depth:     6
+Initial Nof gates: 13
+Total time: 600.0130226612091
+Initial #gates: 13; current #gates: 13
+Initial depth: 6; current depth: 5
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig
+[Iterative] Size change: 13 -> 13
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 13 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 2 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 12595s)
+<Simplifier>(Tue Dec 16 14:18:26 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Warning] Simplifier failed. Copying input to output.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 12591s)
+[Config] Total Limit: 12591s | Iteration Limit: 600s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 12591s, Step Budget: 600s
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig
+[Iterative] Initial Size: 13 AND gates.
+[Iterative] Iteration 1 (Limit: 600s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig 600 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 9052436699936898095
+INFO:root:Available time used up. Nof considered subcircuits: 29853
+INFO:root:Initial #gates: 13; Final #gates: 13
+Initial Depth:     6
+Initial Nof gates: 13
+Total time: 600.3084988594055
+Initial #gates: 13; current #gates: 13
+Initial depth: 6; current depth: 5
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig
+[Iterative] Size change: 13 -> 13
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 13 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 3 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 11991s)
+<Simplifier>(Tue Dec 16 14:28:30 2025) INFO: Processing benchmark tmp_sim_9383_in.
+Can't open file, path is incorrect.
+Aborted (core dumped)
+[Warning] Simplifier failed. Copying input to output.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 11988s)
+[Config] Total Limit: 11988s | Iteration Limit: 600s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 11988s, Step Budget: 600s
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig
+[Iterative] Initial Size: 13 AND gates.
+[Iterative] Iteration 1 (Limit: 600s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig 600 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 6608785888200952007
+INFO:root:Available time used up. Nof considered subcircuits: 28102
+INFO:root:Initial #gates: 13; Final #gates: 13
+Initial Depth:     6
+Initial Nof gates: 13
+Total time: 600.1394011974335
+Initial #gates: 13; current #gates: 13
+Initial depth: 6; current depth: 4
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig
+[Iterative] Size change: 13 -> 13
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 13 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 4 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 11388s)
+<Simplifier>(Tue Dec 16 14:38:34 2025) INFO: Processing benchmark tmp_sim_9383_in.
+Can't open file, path is incorrect.
+Aborted (core dumped)
+[Warning] Simplifier failed. Copying input to output.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 11385s)
+[Config] Total Limit: 11385s | Iteration Limit: 600s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 11385s, Step Budget: 600s
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig
+[Iterative] Initial Size: 13 AND gates.
+[Iterative] Iteration 1 (Limit: 600s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig 600 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 4633659918204730048
+INFO:root:Available time used up. Nof considered subcircuits: 26750
+INFO:root:Initial #gates: 13; Final #gates: 13
+Initial Depth:     6
+Initial Nof gates: 13
+Total time: 600.0117192268372
+Initial #gates: 13; current #gates: 13
+Initial depth: 6; current depth: 5
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig
+[Iterative] Size change: 13 -> 13
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 13 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+--- Iteration 5 / 5 ---
+[Step 1 (Simplifier)] Running... (Max: 10785s)
+<Simplifier>(Tue Dec 16 14:48:36 2025) INFO: Processing benchmark tmp_sim_9383_in/tmp_sim_9383.bench.
+[Warning] Simplifier failed. Copying input to output.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 2 (eSLIM)] Running... (Max: 10781s)
+[Config] Total Limit: 10781s | Iteration Limit: 600s
+[Main] Detected .aig file. Starting eSLIM Iterative Minimization...
+[Iterative] Starting loop. Total Budget: 10781s, Step Budget: 600s
+[Fallback] Copied /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/current_best.aig to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig
+[Iterative] Initial Size: 13 AND gates.
+[Iterative] Iteration 1 (Limit: 600s)...
+[C++] Executing eSLIM: PYTHONPATH=$PYTHONPATH:third_party/eslim/src .venv/bin/python3 third_party/eslim/src/reduce.py /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig 600 --aig --aig-out /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig --gs 2 --syn-mode sat
+INFO:root:Used seed: 3569579862747643119
+INFO:root:Available time used up. Nof considered subcircuits: 28085
+INFO:root:Initial #gates: 13; Final #gates: 13
+Initial Depth:     6
+Initial Nof gates: 13
+Total time: 600.5433628559113
+Initial #gates: 13; current #gates: 13
+Initial depth: 6; current depth: 5
+[C++] eSLIM optimization complete. Saved to /raid4/courses/eda2025f/eda25f17/AIG-Minimization/temp/run_OrtUA3/temp_next.aig.iter_tmp.aig
+[Iterative] Size change: 13 -> 13
+[Iterative] No improvement (Converged). Stopping.
+[Iterative] Final Result: 13 AND gates.
+[Check] Equivalent.
+   [Pass] Verified.
+[Step 3 (Teammate B)] Binary missing (skipping)...
+[Success] Optimization loop completed.
+
+[System] Saved best result to: ./results/2022/ex54.aig
