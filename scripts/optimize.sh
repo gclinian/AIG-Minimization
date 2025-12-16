@@ -1,37 +1,45 @@
 #!/bin/bash
 
 # ==============================================================================
-# IWLS 2025 Optimization Pipeline (Fixed Timer Logic)
+# IWLS 2025 Optimization Pipeline (Parallel Safe)
 # Usage: ./optimize.sh <input_file> <output_aig> [total_time_seconds]
 # ==============================================================================
 
 # --- 1. Configuration ---
 
+# Get absolute path of the project root (where this script is launched from)
+PROJECT_ROOT=$(pwd)
+
 INPUT_FILE="$1"
 OUTPUT_FILE="$2"
 TOTAL_BUDGET_SEC="${3:-3600}"
 
-# Tool Paths
-TOOL_ESLIM="./bin/eslim/main"
-TOOL_SIMPLIFIER="./bin/simplifier/main"
-TOOL_TEAMMATE_B="./bin/teammate_b/optimizer"
-CHECKER_SCRIPT="./scripts/check_aig.sh"
+# Tool Paths (Absolute)
+TOOL_ESLIM="$PROJECT_ROOT/bin/eslim/main"
+TOOL_SIMPLIFIER="$PROJECT_ROOT/bin/simplifier/main"
+TOOL_TEAMMATE_B="$PROJECT_ROOT/bin/teammate_b/optimizer"
+CHECKER_SCRIPT="$PROJECT_ROOT/scripts/check_aig.sh"
 
 # eSlim Config
 ITER_TIME=180
 
-# --- 2. Validation & Setup ---
+# --- 2. Sandbox Setup ---
 
 if [ -z "$INPUT_FILE" ] || [ -z "$OUTPUT_FILE" ]; then
     echo "Usage: $0 <input_file> <output_file> [time_limit_sec]"
     exit 1
 fi
 
-if [ ! -x "$CHECKER_SCRIPT" ]; then
-    echo "[Error] Checker script not executable: $CHECKER_SCRIPT"
-    echo "        Run: chmod +x $CHECKER_SCRIPT"
-    exit 1
-fi
+# Create a visible temp directory in the project root
+mkdir -p "$PROJECT_ROOT/temp"
+# Create a unique subfolder for THIS specific run
+WORK_DIR=$(mktemp -d -p "$PROJECT_ROOT/temp" run_XXXXXX)
+
+# Ensure we cleanup on exit
+function cleanup {
+    rm -rf "$WORK_DIR"
+}
+trap cleanup EXIT SIGINT SIGTERM
 
 # Timer Setup
 START_TIME=$(date +%s)
@@ -39,7 +47,6 @@ END_TIME=$((START_TIME + TOTAL_BUDGET_SEC))
 
 # --- 3. Helper Functions ---
 
-# FIXED: Purely calculates time. Does NOT exit.
 function get_remaining_time {
     local now=$(date +%s)
     echo $((END_TIME - now))
@@ -47,14 +54,14 @@ function get_remaining_time {
 
 function finalize_and_exit {
     echo ""
-    if [ -f "current_best.aig" ]; then
-        cp "current_best.aig" "$OUTPUT_FILE"
+    # If successful, copy result back to the user's requested location
+    if [ -f "$WORK_DIR/current_best.aig" ]; then
+        cp "$WORK_DIR/current_best.aig" "$OUTPUT_FILE"
         echo "[System] Saved best result to: $OUTPUT_FILE"
     else 
         echo "[System] No result generated."
     fi
-    rm -f "current_best.aig" "temp_next.aig" "golden.aig" "cec.log"
-    exit 0
+    exit 0 # trap will handle cleanup
 }
 
 function run_tool_step {
@@ -63,7 +70,6 @@ function run_tool_step {
     local use_timeout_cmd="$3"
     local extra_args="$4"
     
-    # 1. Check Time BEFORE running
     local rem_time=$(get_remaining_time)
     
     if [ "$rem_time" -le 0 ]; then
@@ -74,22 +80,23 @@ function run_tool_step {
     if [ -f "$tool_path" ]; then
         echo "[$step_name] Running... (Max: ${rem_time}s)"
         
-        # Execute Tool
+        # All tools now operate strictly inside WORK_DIR
+        # Because we fixed C++ main.cpp, it will create its temp files inside WORK_DIR too
         if [ "$use_timeout_cmd" == "yes" ]; then
-            timeout "$rem_time" $tool_path "current_best.aig" "temp_next.aig" $extra_args
+            timeout "$rem_time" "$tool_path" "$WORK_DIR/current_best.aig" "$WORK_DIR/temp_next.aig" $extra_args
         else
-            $tool_path "current_best.aig" "temp_next.aig" "time_limit=$rem_time" $extra_args
+            "$tool_path" "$WORK_DIR/current_best.aig" "$WORK_DIR/temp_next.aig" "time_limit=$rem_time" $extra_args
         fi
 
         # Verify Result
-        if [ -f "temp_next.aig" ]; then
-            $CHECKER_SCRIPT "golden.aig" "temp_next.aig"
+        if [ -f "$WORK_DIR/temp_next.aig" ]; then
+            "$CHECKER_SCRIPT" "$WORK_DIR/golden.aig" "$WORK_DIR/temp_next.aig"
             if [ $? -eq 0 ]; then
                 echo "   [Pass] Verified."
-                mv "temp_next.aig" "current_best.aig"
+                mv "$WORK_DIR/temp_next.aig" "$WORK_DIR/current_best.aig"
             else
                 echo "   [FAIL] Verification Failed. Discarding result."
-                rm "temp_next.aig"
+                rm "$WORK_DIR/temp_next.aig"
             fi
         fi
     else
@@ -97,17 +104,21 @@ function run_tool_step {
     fi
 }
 
-trap finalize_and_exit SIGINT SIGTERM
-
 # ==============================================================================
 # PHASE 1: INITIAL PASS
 # ==============================================================================
 
-echo "Phase 1: Initialization"
+echo "Phase 1: Initialization (Sandbox: $WORK_DIR)"
 
-# 1. Establish Golden Reference
+# 1. Establish Golden Reference inside Sandbox
+# We use absolute paths for 'cp' to be safe
 if [[ "$INPUT_FILE" == *.aig ]]; then
-    cp "$INPUT_FILE" "golden.aig"
+    # If input path is relative, make it relative to PROJECT_ROOT
+    if [[ "$INPUT_FILE" != /* ]]; then
+        cp "$PROJECT_ROOT/$INPUT_FILE" "$WORK_DIR/golden.aig"
+    else
+        cp "$INPUT_FILE" "$WORK_DIR/golden.aig"
+    fi
 fi
 
 # 2. Check Time
@@ -115,22 +126,25 @@ REMAINING=$(get_remaining_time)
 if [ "$REMAINING" -le 0 ]; then finalize_and_exit; fi
 
 # 3. Run Initial Synthesis
-# Note: If time runs out HERE, eSLIM will handle it internally via time_limit
-$TOOL_ESLIM "$INPUT_FILE" "current_best.aig" "time_limit=$REMAINING" "iter_time=$ITER_TIME"
+# Handle input path resolution again
+REAL_INPUT="$INPUT_FILE"
+if [[ "$INPUT_FILE" != /* ]]; then REAL_INPUT="$PROJECT_ROOT/$INPUT_FILE"; fi
 
-if [ ! -f "current_best.aig" ]; then
+"$TOOL_ESLIM" "$REAL_INPUT" "$WORK_DIR/current_best.aig" "time_limit=$REMAINING" "iter_time=$ITER_TIME"
+
+if [ ! -f "$WORK_DIR/current_best.aig" ]; then
     echo "[Error] Initial pass failed."
     exit 1
 fi
 
 # 4. Finalize Golden Reference
-if [ ! -f "golden.aig" ]; then
-    cp "current_best.aig" "golden.aig"
+if [ ! -f "$WORK_DIR/golden.aig" ]; then
+    cp "$WORK_DIR/current_best.aig" "$WORK_DIR/golden.aig"
 else
-    $CHECKER_SCRIPT "golden.aig" "current_best.aig"
+    "$CHECKER_SCRIPT" "$WORK_DIR/golden.aig" "$WORK_DIR/current_best.aig"
     if [ $? -ne 0 ]; then
          echo "[Fatal] Initial pass corrupted the circuit! Reverting."
-         cp "golden.aig" "current_best.aig"
+         cp "$WORK_DIR/golden.aig" "$WORK_DIR/current_best.aig"
     fi
 fi
 
@@ -141,7 +155,6 @@ fi
 for i in {1..5}; do
     echo "--- Iteration $i / 5 ---"
     
-    # Check global time at start of iteration
     REMAINING=$(get_remaining_time)
     if [ "$REMAINING" -le 0 ]; then 
         echo "[Timeout] Global time limit reached."

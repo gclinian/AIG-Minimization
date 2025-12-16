@@ -1,71 +1,85 @@
 #!/bin/bash
 
 # ==============================================================================
-# Batch Runner for IWLS 2025 Benchmarks (Zero-Padded)
-# Usage: ./run_batch.sh [time_limit_per_case]
+# Parallel Batch Runner for IWLS 2025 Benchmarks
+# Usage: ./run_batch.sh [num_threads] [time_limit_per_case]
 # ==============================================================================
 
 # 1. Configuration
-BENCH_DIR="./benchmarks/2022"
-RESULT_DIR="./results/2022"
-SCRIPT="./scripts/optimize.sh"
-TIME_LIMIT="${1:-1800}"  # Default 1800s (30 mins) per case
+export BENCH_DIR="./benchmarks/2022"
+export RESULT_DIR="./results/2022"
+export SCRIPT="./scripts/optimize.sh"
 
-# Define the specific test case numbers
-CASES=( {20..25} {40..44} {90..99} )
+# Default Arguments
+NUM_THREADS="${1:-4}"     # Default to 4 parallel jobs
+export TIME_LIMIT="${2:-1800}" # Default to 600s per case
+
+# Define cases to run (Space separated, ranges {N..M} allowed)
+CASES=( {1..99} )
 
 # 2. Setup
 mkdir -p "$RESULT_DIR"
 
 if [ ! -x "$SCRIPT" ]; then
-    echo "[Error] Optimization script not found or not executable: $SCRIPT"
-    echo "       Please run: chmod +x $SCRIPT"
+    echo "[Error] Script not executable: $SCRIPT"
     exit 1
 fi
 
 echo "=========================================================="
-echo "Starting Batch Run"
-echo "Benchmarks: $BENCH_DIR"
-echo "Results:    $RESULT_DIR"
+echo "Starting Parallel Run"
+echo "Threads:    $NUM_THREADS"
 echo "Time Limit: ${TIME_LIMIT}s per case"
 echo "Cases:      ${CASES[*]}"
 echo "=========================================================="
 
-# 3. Main Loop
-for ID in "${CASES[@]}"; do
-    # Format ID to 2 digits with leading zero (e.g., 1 -> 01)
-    CASE_ID=$(printf "%02d" "$ID")
+# 3. Worker Function
+# This function handles a single test case. We export it so xargs can see it.
+function process_case() {
+    local ID="$1"
     
-    INPUT_FILE="${BENCH_DIR}/ex${CASE_ID}.truth"
-    OUTPUT_FILE="${RESULT_DIR}/ex${CASE_ID}.aig"
-    LOG_FILE="${RESULT_DIR}/ex${CASE_ID}.log"
+    # Zero-pad the ID (e.g., 1 -> 01)
+    local CASE_ID=$(printf "%02d" "$ID")
+    
+    local INPUT_FILE="${BENCH_DIR}/ex${CASE_ID}.truth"
+    local OUTPUT_FILE="${RESULT_DIR}/ex${CASE_ID}.aig"
+    local LOG_FILE="${RESULT_DIR}/ex${CASE_ID}.log"
 
-    # Check if input exists
+    # Checks
     if [ ! -f "$INPUT_FILE" ]; then
-        echo "[Skip] Input file not found: $INPUT_FILE"
-        continue
+        echo "[Skip] ex${CASE_ID}: Input not found."
+        return
     fi
 
-    # Check if output already exists (Skip if done)
     if [ -f "$OUTPUT_FILE" ]; then
-        echo "[Skip] Result already exists for ex${CASE_ID}"
-        continue
+        echo "[Skip] ex${CASE_ID}: Result exists."
+        return
     fi
 
-    echo ""
-    echo ">>> Processing ex${CASE_ID} ..."
+    echo ">>> [Start] ex${CASE_ID} (Log: $LOG_FILE)"
     
-    # Run the pipeline and capture log
-    # We use '2>&1' to capture both standard output and errors in the log
-    $SCRIPT "$INPUT_FILE" "$OUTPUT_FILE" "$TIME_LIMIT" > "$LOG_FILE" 2>&1
+    # Run the pipeline
+    # Redirect BOTH stdout and stderr to the log file to prevent terminal clutter
+    "$SCRIPT" "$INPUT_FILE" "$OUTPUT_FILE" "$TIME_LIMIT" > "$LOG_FILE" 2>&1
     
-    if [ $? -eq 0 ]; then
-        echo "[Done] ex${CASE_ID} finished successfully."
+    local EXIT_CODE=$?
+    
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo ">>> [Done]  ex${CASE_ID} finished."
     else
-        echo "[Fail] ex${CASE_ID} encountered an error. Check log: $LOG_FILE"
+        echo ">>> [Fail]  ex${CASE_ID} failed (Code: $EXIT_CODE). See $LOG_FILE"
     fi
-done
+}
+
+# Export the function and variables so subshells can use them
+export -f process_case
+
+# 4. Parallel Execution
+# We pipe the CASES array into xargs.
+# -P: Number of parallel processes
+# -I {}: Placeholder for the argument
+# -n 1: Use 1 argument per command
+printf "%s\n" "${CASES[@]}" | xargs -P "$NUM_THREADS" -I {} -n 1 bash -c 'process_case "{}"'
 
 echo ""
 echo "=========================================================="
-echo "Batch Run Complete."
+echo "Parallel Batch Run Complete."

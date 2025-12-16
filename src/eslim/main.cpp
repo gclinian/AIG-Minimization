@@ -71,7 +71,7 @@ int main(int argc, char * argv[]) {
 
     if (ext == ".truth") {
         std::cout << "[Main] Detected .truth file. Starting ABC Synthesis..." << std::endl;
-        std::string tempAbcOutput = "temp_abc_result.aig";
+        std::string tempAbcOutput = outputFile + ".abc_tmp.aig";
 
         if (run_abc_optimization(inputFile, tempAbcOutput) != 0) {
             std::cerr << "[Error] ABC Synthesis failed." << std::endl;
@@ -279,7 +279,7 @@ int run_iterative_eslim(std::string inputFile, std::string outputFile, int total
     }
     std::cout << "[Iterative] Initial Size: " << bestCost << " AND gates." << std::endl;
 
-    std::string tempIterOutput = "temp_iter_out.aig";
+    std::string tempIterOutput = outputFile + ".iter_tmp.aig";
     int iteration = 1;
 
     while (true) {

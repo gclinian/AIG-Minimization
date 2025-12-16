@@ -9,3 +9,4 @@ abc.history
 .vscode/
 .venv/
 __pycache__/
+temp/
