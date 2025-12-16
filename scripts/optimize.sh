@@ -21,7 +21,7 @@ TOOL_TEAMMATE_B="$PROJECT_ROOT/bin/teammate_b/optimizer"
 CHECKER_SCRIPT="$PROJECT_ROOT/scripts/check_aig.sh"
 
 # eSlim Config
-ITER_TIME=180
+ITER_TIME=600
 
 # --- 2. Sandbox Setup ---
 

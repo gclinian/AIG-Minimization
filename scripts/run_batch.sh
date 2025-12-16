@@ -15,7 +15,7 @@ NUM_THREADS="${1:-4}"     # Default to 4 parallel jobs
 export TIME_LIMIT="${2:-1800}" # Default to 600s per case
 
 # Define cases to run (Space separated, ranges {N..M} allowed)
-CASES=( {1..99} )
+CASES=( {20..29} {50..59} {90..99} )
 
 # 2. Setup
 mkdir -p "$RESULT_DIR"
